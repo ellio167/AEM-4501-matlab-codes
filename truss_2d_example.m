@@ -1,0 +1,54 @@
+a = 1;
+P = 500;
+
+MatsSets(1).E = 210e9;
+MatsSets(1).A = 4e-4;
+MatsSets(1).rho = 7.1;
+
+MatsSets(2).E = 70e9;
+MatsSets(2).A = 3e-3;
+MatsSets(2).rho = 3.5;
+
+PD.N = 6;
+PD.NodePos = [0,     0,   0;
+              a,     0,   0;
+              a/2,   a,   0;
+              4*a/3, a,   0;
+              a,     2*a, 0;
+              2*a,   2*a, 0];
+PD.NE = 9;
+PD.ElmConnect = [1, 2;
+                 1, 3;
+                 2, 3;
+                 2, 4;
+                 3, 5;
+                 3, 4;
+                 4, 5;
+                 4, 6;
+                 5, 6];
+PD.NM = 2;
+PD.MatsSets = MatsSets;
+PD.ElmMats = [2;
+              1;
+              2;
+              1;
+              1;
+              2;
+              2;
+              1;
+              2];
+PD.BCType = [1, 1, 1;
+             0, 1, 1;
+             0, 0, 1;
+             0, 0, 1;
+             0, 0, 1;
+             0, 0, 1;
+             0, 0, 1];
+PD.BCVal = [0, 0, 0;
+            0, 0, 0;
+            0, 0, 0;
+            0, 0, 0;
+            0, 0, 0;
+            P*cos(30*pi/180), -P*sin(30*pi/180), 0];
+
+PDans = PD_truss_static(PD);
