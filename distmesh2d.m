@@ -1,4 +1,4 @@
-function [p,t]=distmesh2d(fd,fh,h0,bbox,plot_flag, pfix, varargin)
+function [p,t]=distmesh2d(fd,fh,h0,bbox, pfix, plot_flag, varargin)
 %DISTMESH2D 2-D Mesh Generator using Distance Functions.
 %   [P,T]=DISTMESH2D(FD,FH,H0,BBOX,PFIX,FPARAMS)
 %
@@ -74,8 +74,11 @@ pfix=unique(pfix,'rows'); nfix=size(pfix,1);
 p=[pfix; p];                                         % Prepend fix points
 N=size(p,1);                                         % Number of points N
 
+% 3. set plot_flag if not provided
+if (nargin < 6) plot_flag = 1; end
+
 count=0;
-pold=inf;                                            % For first iterationp
+pold=inf;                                            % For first iteration
 if(plot_flag == 1)
  clf,view(2),axis equal,axis off
 end
@@ -102,14 +105,14 @@ while 1
   L=sqrt(sum(barvec.^2,2));                          % L = Bar lengths
   hbars=feval(fh,(p(bars(:,1),:)+p(bars(:,2),:))/2,varargin{:});
   L0=hbars*Fscale*sqrt(sum(L.^2)/sum(hbars.^2));     % L0 = Desired lengths
-  
+
   % Density control - remove points that are too close
   if mod(count,densityctrlfreq)==0 & any(L0>2*L)
       p(setdiff(reshape(bars(L0>2*L,:),[],1),1:nfix),:)=[];
       N=size(p,1); pold=inf;
       continue;
   end
-  
+
   F=max(L0-L,0);                                     % Bar forces (scalars)
   Fvec=F./L*[1,1].*barvec;                           % Bar forces (x,y components)
   Ftot=full(sparse(bars(:,[1,1,2,2]),ones(size(F))*[1,2,1,2],[Fvec,-Fvec],N,2));
