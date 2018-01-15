@@ -1,4 +1,4 @@
-AEM 4501 S15 matlab files
+AEM 4501 matlab files
 
 place this directory in a convenient folder on your computer.
 
