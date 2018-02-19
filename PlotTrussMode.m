@@ -66,9 +66,12 @@ for i = 1:NumElms
                  );
 end;
 
-xRange = [min(PD.NodePos(:,1)), max(PD.NodePos(:,1))];
-yRange = [min(PD.NodePos(:,2)), max(PD.NodePos(:,2))];
-zRange = [min(PD.NodePos(:,3)), max(PD.NodePos(:,3))];
+xRange = [min(PD.NodePos(:,1)+scl*PD.Modes(:,1,ModeNumber)), ...
+          max(PD.NodePos(:,1)+scl*PD.Modes(:,1,ModeNumber))];
+yRange = [min(PD.NodePos(:,2)+scl*PD.Modes(:,2,ModeNumber)), ...
+          max(PD.NodePos(:,2)+scl*PD.Modes(:,2,ModeNumber))];
+zRange = [min(PD.NodePos(:,3)+scl*PD.Modes(:,3,ModeNumber)), ...
+          max(PD.NodePos(:,3)+scl*PD.Modes(:,3,ModeNumber))];
 
 xticlen = 0.05*(xRange(2)-xRange(1));
 yticlen = 0.05*(yRange(2)-yRange(1));
@@ -95,7 +98,7 @@ for i = 1:NumNodes
   y = PD.NodePos(i,2);
   z = PD.NodePos(i,3);
 
-  if (PD.BCType(i,1) == 0) 
+  if (PD.BCType(i,1) == 0)
     clr = 'm';
   else
     clr = 'c';
@@ -104,7 +107,7 @@ for i = 1:NumNodes
    fc(i,1) = line([x-xticlen,x+xticlen],[y,y],[z,z],'Color',clr,'LineWidth',2);
   end;
 
-  if (PD.BCType(i,2) == 0) 
+  if (PD.BCType(i,2) == 0)
     clr = 'm';
   else
     clr = 'c';
@@ -113,7 +116,7 @@ for i = 1:NumNodes
    fc(i,2) = line([x,x],[y-yticlen,y+yticlen],[z,z],'Color',clr,'LineWidth',2);
   end;
 
-  if (PD.BCType(i,3) == 0) 
+  if (PD.BCType(i,3) == 0)
     clr = 'm';
   else
     clr = 'c';
@@ -127,7 +130,7 @@ for i = 1:NumNodes
                'MarkerSize', 20 ...
               );
 
-  if (plotlab == 'y')
+ if (plotlab == 'y')
    ndnum(i) = text(x+.5*xticlen,y+.5*yticlen,z+.5*zticlen, ...
                  num2str(i), ...
                  'HorizontalAlignment', 'left', ...

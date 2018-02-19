@@ -83,12 +83,12 @@ for i = 1:NumElms
 end;
 
 if (plotdef == 'y')
-  xRange = [min([PD.NodePos(:,1)+PD.U(:,1); PD.NodePos(:,1)]),...
-            max([PD.NodePos(:,1)+PD.U(:,1); PD.NodePos(:,1)])];
-  yRange = [min([PD.NodePos(:,2)+PD.U(:,2); PD.NodePos(:,2)]),...
-            max([PD.NodePos(:,2)+PD.U(:,2); PD.NodePos(:,2)])];
-  zRange = [min([PD.NodePos(:,3)+PD.U(:,3); PD.NodePos(:,3)]),...
-            max([PD.NodePos(:,3)+PD.U(:,3); PD.NodePos(:,3)])];
+  xRange = [min([PD.NodePos(:,1)+scl*PD.U(:,1); PD.NodePos(:,1)]),...
+            max([PD.NodePos(:,1)+scl*PD.U(:,1); PD.NodePos(:,1)])];
+  yRange = [min([PD.NodePos(:,2)+scl*PD.U(:,2); PD.NodePos(:,2)]),...
+            max([PD.NodePos(:,2)+scl*PD.U(:,2); PD.NodePos(:,2)])];
+  zRange = [min([PD.NodePos(:,3)+scl*PD.U(:,3); PD.NodePos(:,3)]),...
+            max([PD.NodePos(:,3)+scl*PD.U(:,3); PD.NodePos(:,3)])];
 else
   xRange = [min(PD.NodePos(:,1)), max(PD.NodePos(:,1))];
   yRange = [min(PD.NodePos(:,2)), max(PD.NodePos(:,2))];
@@ -110,7 +110,7 @@ for i = 1:NumElms
                  'HorizontalAlignment', 'left', ...
                  'FontWeight', 'bold' ...
                 );
-  end
+  end;
 end;
 
 fc = zeros(NumNodes,3);
@@ -120,7 +120,7 @@ for i = 1:NumNodes
   y = PD.NodePos(i,2);
   z = PD.NodePos(i,3);
 
-  if (PD.BCType(i,1) == 0) 
+  if (PD.BCType(i,1) == 0)
     clr = 'm';
   else
     clr = 'c';
@@ -129,7 +129,7 @@ for i = 1:NumNodes
    fc(i,1) = line([x-xticlen,x+xticlen],[y,y],[z,z],'Color',clr,'LineWidth',2);
   end;
 
-  if (PD.BCType(i,2) == 0) 
+  if (PD.BCType(i,2) == 0)
     clr = 'm';
   else
     clr = 'c';
@@ -138,7 +138,7 @@ for i = 1:NumNodes
    fc(i,2) = line([x,x],[y-yticlen,y+yticlen],[z,z],'Color',clr,'LineWidth',2);
   end;
 
-  if (PD.BCType(i,3) == 0) 
+  if (PD.BCType(i,3) == 0)
     clr = 'm';
   else
     clr = 'c';
@@ -160,8 +160,7 @@ for i = 1:NumNodes
                  'FontWeight', 'bold', ...
                  'FontSize', 15 ...
                     );
- end
-
+  end;
 end;
 
 if (plotdef == 'y')
@@ -170,7 +169,8 @@ if (plotdef == 'y')
   colorbar;
 else
   colormap('lines');
-  colorbar('Ylim',[0.99,max(PD.ElmMats)+1.01]);
+  caxis([1,size(lines,1)]);
+  colorbar('Ylim',[0.99,max(PD.ElmMats)+0.95]);
 end;
 
 Range = [min([xRange(1), yRange(1), zRange(1)]),...
@@ -181,5 +181,3 @@ ylabel('Y');
 ylim(Range+(Range(2)-Range(1))*[-0.1,0.1]);
 zlabel('Z');
 zlim(Range+(Range(2)-Range(1))*[-0.1,0.1]);
-
-
