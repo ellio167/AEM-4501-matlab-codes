@@ -31,7 +31,7 @@ function [M, K, Fq] = assemble_PD_frame_fem(PD)
 %                       per unit length qy(z) as @(z)()
 %        qz         =   Function handle to distributed axial force in the z-dir
 %                       per unit length qz(z) as @(z)()
-%      EqnNumbering =   Node to global DOF numbering as @(Node, NodeDOF)()
+%        EqnNumbering =   Node to global DOF numbering as @(Node, NodeDOF)()
 %
 % Output: (NTot = N * NodeDOFs)
 %     M          =   (NTot)x(NTot) lumped global mass matrix

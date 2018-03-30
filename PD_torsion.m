@@ -3,7 +3,7 @@ function PD = PD_torsion(PD, plot_flag)
 % Function to solve Prandtl torsion problems
 %
 % Synopsis:
-%     PD =  PD_torsion(PD)
+%     PD =  PD_torsion(PD, plot_flag)
 %
 % Input:
 %     PD         =   Matlab structure with (at least) the following fields
