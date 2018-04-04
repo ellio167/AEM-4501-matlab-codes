@@ -24,6 +24,7 @@ fileList="README.TXT\
          beam_free_vib.m\
          beam_interpolate_results.m\
          boundedges.m\
+         butterfly_torsion_example.m\
          create_gmesh_for_uniform_mesh.m\
          distmesh2d.m\
          dpoly.m\
@@ -31,6 +32,7 @@ fileList="README.TXT\
          dsegment.mexmaci64\
          dsegment.mexw32\
          dsegment.mexw64\
+         ellipse_torsion_example.m\
          fixmesh.m\
          gmesh_bar_dynamic.m\
          gmesh_bar_modes.m\
@@ -39,6 +41,7 @@ fileList="README.TXT\
          gmesh_beam_modes.m\
          gmesh_beam_static.m\
          huniform.m\
+         rectangle_torsion_example.m\
          simpplot.m\
          simpvol.m\
          spring_mass_forced.m\
