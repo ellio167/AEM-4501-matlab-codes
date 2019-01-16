@@ -326,6 +326,7 @@ assemble_PD_torsion_fem.m
      and the simple formula for the "constant-strain-triangle" element
      stiffness matrix and force vector.
 
+ellipse_torsion_example.m
 triangle_torsion_example.m
 rectangle_torsion_example.m
 butterfly_torsion_example.m
@@ -341,6 +342,7 @@ DIST MESH files:
      boundedges.m
      distmesh2d.m
      dpoly.m
+     dsegment.m
      dsegment.mexa64
      dsegment.mexmaci64
      dsegment.mexw32

@@ -1,16 +1,18 @@
 #!/bin/sh
 
-prefix=AEM-4501-S18-matlab-code
+prefix=AEM-4501-S19-matlab-code
 
 fileList="README.TXT\
          DISTMESH_COPYRIGHT.TXT\
          DISTMESH_FILE_LIST.TXT\
+         LICENSE.TXT\
          PD_torsion.m\
          PD_torsion_poly.m\
          PD_truss_modes.m\
          PD_truss_static.m\
          PlotTruss.m\
          PlotTrussMode.m\
+         README.TXT\
          assemble_PD_torsion_fem.m\
          assemble_PD_truss_fem.m\
          assemble_bar_fem.m\
@@ -28,6 +30,7 @@ fileList="README.TXT\
          create_gmesh_for_uniform_mesh.m\
          distmesh2d.m\
          dpoly.m\
+         dsegment.m\
          dsegment.mexa64\
          dsegment.mexmaci64\
          dsegment.mexw32\
@@ -45,6 +48,7 @@ fileList="README.TXT\
          simpplot.m\
          simpvol.m\
          spring_mass_forced.m\
+         triangle_torsion_example.m\
          truss_2d_example.m\
          truss_example.m\
          truss_local_matrices.m"
