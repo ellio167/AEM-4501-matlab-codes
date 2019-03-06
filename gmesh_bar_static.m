@@ -24,7 +24,7 @@ function [Disp, Reac, Force, Strain] = gmesh_bar_static(N, NodePos, ...
 %     LEndNode   =   Node number for Left hand end of bar
 %     REndNode   =   Node number for Right hand end of bar
 %     Fz         =   End load force (tension) or torque (torsion)
-%     qz          =   Function handle to distributed force per unit length
+%     qz         =   Function handle to distributed force per unit length
 %                    or torque per unit length qz(z) as @(z)()
 %
 % Output:
