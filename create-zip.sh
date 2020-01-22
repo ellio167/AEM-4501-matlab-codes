@@ -1,6 +1,6 @@
 #!/bin/sh
 
-prefix=AEM-4501-S19-matlab-code
+prefix=AEM-4501-S20-matlab-code
 
 fileList="README.TXT\
          DISTMESH_COPYRIGHT.TXT\
