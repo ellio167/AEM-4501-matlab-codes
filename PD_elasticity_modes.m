@@ -1,10 +1,12 @@
-function PD = PD_elasticity_modes(PD, Nmodes, plot_flag)
-%
-% Function to solve 2D elasticity free vibration problems
+function PD = PD_elasticity_modes(PD, plot_flag, Nmodes)
+% PD_elasticity_modes - Function solves 2D elasticity for free vibration
+%                       problems
 %
 % Synopsis:
-%     PD =  PD_elasticity_modes(PD, Nmodes, plot_flag)
-%
+%     PD =  PD_elasticity_modes(PD, plot_flag)
+%           - Solves for all modes of structure
+%     PD =  PD_elasticity_modes(PD, plot_flag, Nmodes)
+%           - Solves for Nmodes of structure
 % Input:
 %     PD         =   Matlab structure with (at least) the following fields
 %        DistFunc   =   Distance Function handle for 2D x-section domain
@@ -35,7 +37,7 @@ function PD = PD_elasticity_modes(PD, Nmodes, plot_flag)
 %        Modes      =   Nx3xNmodes array of vibration mode displacements
 
 %
-% By: Amartya Banerjee, Ryan S. Elliott -- Apr. 2015, Apr. 2018
+% By: Amartya Banerjee, Ryan S. Elliott, Lincoln L. Priebe -- Apr. 2015, Apr. 2018
 
 %
 % The mesh generation is performed by the routines from the DistMesh suite of
@@ -65,9 +67,7 @@ end
 PD.N = size(PD.NodePos,1);
 PD.NE = size(PD.ElmConnect,1);
 
-PD.Nmodes = Nmodes;
-PD.FreqSq = zeros(Nmodes, 1);
-PD.Modes = zeros(PD.N, 2, Nmodes);
+
 
 % Detect the boundary points
 BoundaryRange=unique(boundedges(PD.NodePos, PD.ElmConnect));
@@ -76,11 +76,48 @@ BoundaryRange=unique(boundedges(PD.NodePos, PD.ElmConnect));
 PD.EqnNumbering = @(Node, NodeDOF)(2*(Node-1) + NodeDOF);
 [M, K] = assemble_PD_elasticity_fem(PD);
 
+
+%% SECTION 2 - Make changes to K to specify first 3 modes as translation in x,y and rot.
+
+T = zeros((PD.N*2),1);
+Tx=T;Ty=T;
+Tx(1:2:length(T)) = 1; Tx=Tx/norm(Tx);
+Ty(2:2:length(T)) = 1; Ty=Ty/norm(Ty);
+theta = .01;
+t=[1 theta; -theta 1];
+
+R=[];    %initialize R matrix
+for i=1:(PD.N)
+    u=[PD.NodePos(i,1);PD.NodePos(i,2)];   %x,y coordinate of each node
+    r=t*u;
+    R=cat(1,R,r);
+end
+R=R-Tx*dot(R,Tx)-Ty*dot(R,Ty); %force R to be orthogonal to Tx,Ty
+R=R/norm(R);
+
+
+Ax=(0.01)*Tx*Tx';
+Ay=(0.02)*Ty*Ty';
+Ar=(0.03)*R*R';
+
+K = K + Ax + Ay + Ar;
+
+
+
 % Unconstrained free vibration has no BCs to apply
 %
 
 % find modes
-[V, D] = eigs(K, M, Nmodes, 'SA');
+if nargin < 3
+    [V, D] = eigs(K, M, PD.N*2, 'smallestreal');  %solve for all modes
+    Nmodes=size(D,1);
+else
+    [V, D] = eigs(K, M, Nmodes, 'smallestreal');  %solve for Nmodes
+end
+
+PD.Nmodes = Nmodes;
+PD.FreqSq = zeros(Nmodes, 1);
+PD.Modes = zeros(PD.N, 2, Nmodes);
 
 PD.FreqSq = diag(D);
 for k=1:Nmodes
