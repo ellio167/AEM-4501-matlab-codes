@@ -40,6 +40,17 @@ PD.ElmStress = zeros(PD.NE,1);
 % create copy of input
 PDcpy = PD;
 
+% check for duplicate bars
+[~,unique_bars,~] = unique(sort(PDcpy.ElmConnect,2), 'rows');
+if (size(unique_bars) ~= PDcpy.NE)
+  fprintf(1, 'NOTE: Duplicate bars are present!\n');
+  fprintf(1, '  Duplicate bar numbers are:\n');
+  duplicate_bars = setdiff([1:PDcpy.NE],unique_bars);
+  fprintf(1, '\t%i\n', sort(duplicate_bars));
+  clear duplicate_bars;
+end
+clear unique_bars;
+
 % overwrite density with arbitrary value
 for i=1:PDcpy.NM
   PDcpy.MatsSets(i).rho = 1.0;

@@ -36,6 +36,17 @@ PD.Nmodes = Nmodes;
 PD.Freq = zeros(Nmodes,1);
 PD.Modes = zeros(PD.N,3,Nmodes);
 
+% check for duplicate bars
+[~,unique_bars,~] = unique(sort(PD.ElmConnect,2), 'rows');
+if (size(unique_bars) ~= PD.NE)
+  fprintf(1, 'NOTE: Duplicate bars are present!\n');
+  fprintf(1, '  Duplicate bar numbers are:\n');
+  duplicate_bars = setdiff([1:PD.NE],unique_bars);
+  fprintf(1, '\t%i\n', sort(duplicate_bars));
+  clear duplicate_bars;
+end
+clear unique_bars;
+
 % Compute global values and ignore M
 PD.EqnNumbering = @(Node, NodeDOF)(3*(Node-1) + NodeDOF);
 [M, K] = assemble_PD_truss_fem(PD);
