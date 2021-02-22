@@ -81,24 +81,22 @@ PD.EqnNumbering = @(Node, NodeDOF)(2*(Node-1) + NodeDOF);
 
 T = zeros((PD.N*2),1);
 Tx=T;Ty=T;
-Tx(1:2:length(T)) = 1; Tx=Tx/norm(Tx);
-Ty(2:2:length(T)) = 1; Ty=Ty/norm(Ty);
+Tx(1:2:length(T)) = 1; Tx=Tx/sqrt(Tx'*M*Tx);  % normalize through the mass matrix
+Ty(2:2:length(T)) = 1; Ty=Ty/sqrt(Ty'*M*Ty);  % normalize through the mass matrix
 theta = .01;
-t=[1 theta; -theta 1];
-
+t=[0 theta; -theta 0];
 R=[];    %initialize R matrix
 for i=1:(PD.N)
     u=[PD.NodePos(i,1);PD.NodePos(i,2)];   %x,y coordinate of each node
     r=t*u;
     R=cat(1,R,r);
 end
-R=R-Tx*dot(R,Tx)-Ty*dot(R,Ty); %force R to be orthogonal to Tx,Ty
-R=R/norm(R);
+R=R-Tx*dot(R,M*Tx)-Ty*dot(R,M*Ty); %force R to be M-orthogonal to Tx,Ty
+R=R/sqrt(R'*M*R);
 
-
-Ax=(0.01)*Tx*Tx';
-Ay=(0.02)*Ty*Ty';
-Ar=(0.03)*R*R';
+Ax=(0.01)*(M*Tx)*(M*Tx)';
+Ay=(0.02)*(M*Ty)*(M*Ty)';
+Ar=(0.03)*(M*R)*(M*R)';
 
 K = K + Ax + Ay + Ar;
 
