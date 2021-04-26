@@ -9,7 +9,7 @@ switch dim
   if nargin<5 | isempty(icol), icol=[0,0,0]; end
   if nargin<6, nodes=0; end
   if nargin<7, tris=0; end
-  
+
   trimesh(t,p(:,1),p(:,2),0*p(:,1),'facecolor',bcol,'edgecolor','k');
   if nodes==1
     line(p(:,1),p(:,2),'linest','none','marker','.','col',icol,'markers',24);
@@ -33,7 +33,7 @@ switch dim
  case 3
   if nargin<4 | isempty(bcol), bcol=[.8,.9,1]; end
   if nargin<5 | isempty(icol), icol=[.9,.8,1]; end
-  
+
   if size(t,2)==4
     tri1=surftri(p,t);
     if nargin>2 & ~isempty(expr)
@@ -57,7 +57,7 @@ switch dim
   hold off
   set(h,'facecolor',bcol,'edgecolor','k');
   axis equal
-  cameramenu
+  cameratoolbar
  otherwise
   error('Unimplemented dimension.');
 end
