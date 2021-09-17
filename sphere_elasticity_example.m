@@ -1,11 +1,14 @@
-function PD=sphere_elasticity_example(lambdaInput)
+lambdaInput = 1;
+% function PD=sphere_elasticity_example(lambdaInput)
 % Example for how to solve for free vibration with a 3d sphere domain
 
 % sphere of radius 1 centered at origin
-PD.DistFunc = @(r)(r(:,1).^2/(1^2) + r(:,2).^2/(1^2) + r(:,3).^2/(1^2) - 1.0);
+% PD.DistFunc = @(r)(r(:,1).^2/(1^2) + r(:,2).^2/(1^2) + r(:,3).^2/(1^2) - 1.0);
+% PD.DistFunc = inline('sqrt(sum(p.^2,2))-1','p');
+PD.DistFunc = @(r)(sqrt(sum(r.^2,2))-1);
 
-PD.InitEdgeLen = 0.1;
-PD.BBox = 1.1*[-1,-1,-1; 1,1,1];
+PD.InitEdgeLen = 0.2;
+PD.BBox = [-1,-1,-1; 1,1,1];
 
 mu = 1;
 lambda = lambdaInput*mu;
@@ -21,4 +24,4 @@ PD.Material.Stiffness = ...
 
 PD.Material.Density = 1.0;
 
-PD=PD_3d_elasticity_modes(PD,0);
+PD=PD_3d_elasticity_modes(PD,1);
