@@ -126,11 +126,13 @@ K = K + Ax + Ay + Az + Arz + Arx + Ary;
 
 % find modes
 if nargin < 3
-    [V, D] = eigs(K, M, PD.N*2, 'smallestreal');  %solve for all modes
+    [V, D] = eigs(K, M, PD.N*3, 'smallestreal');  %solve for all modes
     Nmodes=size(D,1);
 else
     opts.tol = 1e-8;  % put in to fixup convergence, not sure why it should be needed
-    [V, D] = eigs(K, M, Nmodes, 'smallestreal',opts);  %solve for Nmodes
+    opts.spdB = true;
+    opts.disp = true;
+    [V, D] = eigs((K+K')/2.0, (M+M')/2.0, Nmodes, 'smallestreal',opts);  %solve for Nmodes
 end
 
 PD.Nmodes = Nmodes;

@@ -24,4 +24,4 @@ PD.Material.Stiffness = ...
 
 PD.Material.Density = 1.0;
 
-PD=PD_3d_elasticity_modes(PD,1);
+PD=PD_3d_elasticity_modes(PD,1,20);
